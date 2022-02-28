@@ -46,13 +46,61 @@ module.exports = {
                 console.log(err);
                 return res.status(500).json(err);
               })
-    }
+    },
 
     //createUser
+    createUser(req, res) {
+        User.create(req.body)
+        .then((userData) => res.json(userData))
+        .catch((err) => res.status(500).json(err));
+    },
 
     //deleteUser
+    deleteUser(req, res) {
+        User.findOneAndDelete({ _id: req.params.userId })
+          .then((user) =>
+            !user
+              ? res.status(404).json({ message: 'No user with that ID' })
+              : Application.deleteMany({ _id: { $in: user.applications } })
+          )
+          .then(() => res.json({ message: 'User and associated apps deleted!' }))
+          .catch((err) => res.status(500).json(err));
+      },
 
+    //format these last two:
     //addThought
+    addAssignment(req, res) {
+        console.log('You are adding an assignment');
+        console.log(req.body);
+        Student.findOneAndUpdate(
+          { _id: req.params.studentId },
+          { $addToSet: { assignments: req.body } },
+          { runValidators: true, new: true }
+        )
+          .then((student) =>
+            !student
+              ? res
+                  .status(404)
+                  .json({ message: 'No student found with that ID :(' })
+              : res.json(student)
+          )
+          .catch((err) => res.status(500).json(err));
+      },
 
     //removeThought
+    removeThought(req, res) {
+        User.findOneAndUpdate(
+          { _id: req.params.userId },
+          { $pull: { thought: { thoughttId: req.params.thoughtId } } },
+          { runValidators: true, new: true }
+        )
+          .then((user) =>
+            !user
+              ? res
+                  .status(404)
+                  .json({ message: 'No user found with that ID :(' })
+              : res.json(user)
+          )
+          .catch((err) => res.status(500).json(err));
+      },
 }
