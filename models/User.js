@@ -1,7 +1,6 @@
 const { Schema, model } = require('mongoose');
 const thoughtSchema = require('./Thought')
-// from last unit's hw
-let emailRegex = `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/`;
+let emailRegex = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
 
 const userSchema = new Schema(
     {

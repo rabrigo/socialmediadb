@@ -10,7 +10,7 @@ module.exports = {
 
     //getSingleThought
     getSingleThought(req, res) {
-        User.findOne({ _id: req.params.thoughtId})
+        Thought.findOne({ _id: req.params.thoughtId})
             .select('-__v')
             .then((thought) =>
                 !thought
@@ -25,8 +25,8 @@ module.exports = {
         Thought.create(req.body)
             .then((thought) => res.json(thought))
             .catch((err) => {
-                console.log(thought);
-                return res.status(500).json(thought);
+                console.log(err);
+                return res.status(500).json(err);
             })
     },
 
