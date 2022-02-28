@@ -5,12 +5,12 @@ module.exports = {
     getThoughts(req, res) {
         Thought.find()
             .then((thoughts) => res.json(thoughts))
-            .catch((err) => res.status(500).json(err));
+            .catch((err) => res.status(s500).json(err));
     },
 
     //getSingleThought
     getSingleThought(req, res) {
-        Course.findOne({ _id: req.params.thoughtId})
+        User.findOne({ _id: req.params.thoughtId})
             .select('-__v')
             .then((thought) =>
                 !thought
@@ -49,7 +49,7 @@ module.exports = {
     //updateThought
     updateThought(req, res) {
         Thought.findOneAndUpdate(
-            { _id: req.params.videoId },
+            { _id: req.params.thoughtId },
             { $set: req.body },
             { runValidators: true, new: true }
         )
