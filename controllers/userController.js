@@ -8,7 +8,7 @@ const userCount = async () =>
 const userThoughts = async(userId) =>
     User.aggregate([
         {
-            $unwind: 'thoughts',
+            $unwind: '$thoughts',
         },
         {
             $match:{_id:ObjectId(userId)}
