@@ -1,5 +1,7 @@
 const { Schema, model } = require('mongoose');
 const thoughtSchema = require('./Thought')
+// from last unit's hw
+let emailRegex = `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/`;
 
 const userSchema = new Schema(
     {
@@ -14,7 +16,9 @@ const userSchema = new Schema(
             unique: true,
             required: true,
             validate: {
-                validator: () => Promise.resolve(false),
+                validator: function(v) {
+                    return emailRegex.test(v);
+                },
                 message: 'Email validation failed'
             }
         },
